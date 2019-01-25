@@ -1,0 +1,151 @@
+---
+title: "Analysis"
+author: "Nikita"
+date: "January 23, 2019"
+output: html_document
+---
+###load appropriate packages
+```{r}
+library(ggplot2)
+library(dbplyr)
+library(rentrez)
+```
+
+
+###load data into vecor MyData
+```{r}
+MyData <- read.csv("Sequences.csv")
+```
+
+
+#Sequence 1 Analysis
+###subset data from 'MyData' to only get Sequence 1
+```{r}
+Seq1 <- subset(MyData, X == "1")
+#Subset data to only get the Sequence and not the sequence number (X)
+Seq1x <- Seq1$c...HQ433692.1.Borrelia.burgdorferi.strain.QLZP1.16S.ribosomal.RNA.gene..partial.sequence.nAGCATGCAAGTCAAACGAGATGTAGCAATACATCTAGTGGCGAACGGGTGAGTAACGCGTGGATGATCTA.nCCTATGAGATGGGGATAACTATTAGAAATAGTAGCTAATACCGAATAAGGTCAATTAATTTGTTAATTGA.nTGAAAGGAAGCCTTTAAAGCTTCGCTTGTAGATGAGTCTGCGTCTTATTAGTTAGTTGGTAGGGTAAATG.nCCTACCAAGGCGATGATAAGTAACCGGCCTGAGAGGGTGAACGGTCACACTGGAACTGAGACACGGTCCA.nGACTCCTACGGGAGGCAGCAGCTAAGAATCTTCCGCAATGGGCGAAAGCCTGACGGAGCGACACTGCGTG.nAATGAAGAAGGTCGAAAGATTGTAAAATTCTTTTATAAATGAGGAATAAGCTTTGTAGGAAATGACGAAG.nTGATGACGTTAATTTATGAATAAGCCCCGGCTAATTACGTGCCAGCAGCCGCGGTAATACG.n...
+```
+
+### create vector 'Z', which is Sequence 1 without gaps
+```{r}
+#remove header (replace everything, but ACTG, with 'nothing') 
+#replacement must include the 'A' found in the header in 'RNA'
+Z <- gsub("RNA|[^A|C|T|G]", "", Seq1x, ignore.case = FALSE)
+
+```
+###create table showing number of A C G T's in Seq1
+```{r}
+Seq1table <- table(strsplit(Z, ""))
+print(Seq1table)
+```
+
+### create vector 'Z1', which is Sequence 1 with gaps
+```{r}
+Z1 <- gsub("RNA|[^\n|A|C|T|G]", "", Seq1x, ignore.case = FALSE)
+```
+
+###print Sequence 1 with gaps
+```{r}
+print(Z1)
+```
+
+###print Sequence 1 without gaps
+```{r}
+print(Z)
+```
+
+#Sequence 2 Analysis
+###subset data from 'MyData' to only get Sequence 2
+```{r}
+Seq2 <- subset(MyData, X == "2")
+
+#Subset data to only get the Sequence and not the sequence number (X)
+Seq2x <- Seq2$c...HQ433692.1.Borrelia.burgdorferi.strain.QLZP1.16S.ribosomal.RNA.gene..partial.sequence.nAGCATGCAAGTCAAACGAGATGTAGCAATACATCTAGTGGCGAACGGGTGAGTAACGCGTGGATGATCTA.nCCTATGAGATGGGGATAACTATTAGAAATAGTAGCTAATACCGAATAAGGTCAATTAATTTGTTAATTGA.nTGAAAGGAAGCCTTTAAAGCTTCGCTTGTAGATGAGTCTGCGTCTTATTAGTTAGTTGGTAGGGTAAATG.nCCTACCAAGGCGATGATAAGTAACCGGCCTGAGAGGGTGAACGGTCACACTGGAACTGAGACACGGTCCA.nGACTCCTACGGGAGGCAGCAGCTAAGAATCTTCCGCAATGGGCGAAAGCCTGACGGAGCGACACTGCGTG.nAATGAAGAAGGTCGAAAGATTGTAAAATTCTTTTATAAATGAGGAATAAGCTTTGTAGGAAATGACGAAG.nTGATGACGTTAATTTATGAATAAGCCCCGGCTAATTACGTGCCAGCAGCCGCGGTAATACG.n...
+```
+
+### create vector 'X', which is Sequence 2 without gaps
+```{r}
+#remove header (replace everything but ACTG with 'nothing') 
+#replacement must include the 'A' and 'C' found in the header in 'CS4' and 'RNA'
+X <- gsub("CS4|RNA|[^A|C|T|G]", "", Seq2x, ignore.case = FALSE)
+```
+###create table showing number of A C G T's in Seq2
+```{r}
+Seq2table <- table(strsplit(X, ""))
+print(Seq2table)
+```
+
+###create vector 'X1', which is Sequence 2 with gaps
+```{r}
+X1 <- gsub("CS4|RNA|[^\n|A|C|T|G]", "", Seq2x, ignore.case = FALSE)
+```
+###print Sequence 2 with gaps
+```{r}
+print(X1)
+```
+###print Sequence 2 without gaps
+```{r}
+print(X)
+```
+
+#Sequence 3 Analysis
+###subset to only get Sequence 3
+```{r}
+Seq3 <- subset(MyData, X == "3")
+
+#Subset data to only get the Sequence and not the sequence number (X)
+Seq3x <- Seq3$c...HQ433692.1.Borrelia.burgdorferi.strain.QLZP1.16S.ribosomal.RNA.gene..partial.sequence.nAGCATGCAAGTCAAACGAGATGTAGCAATACATCTAGTGGCGAACGGGTGAGTAACGCGTGGATGATCTA.nCCTATGAGATGGGGATAACTATTAGAAATAGTAGCTAATACCGAATAAGGTCAATTAATTTGTTAATTGA.nTGAAAGGAAGCCTTTAAAGCTTCGCTTGTAGATGAGTCTGCGTCTTATTAGTTAGTTGGTAGGGTAAATG.nCCTACCAAGGCGATGATAAGTAACCGGCCTGAGAGGGTGAACGGTCACACTGGAACTGAGACACGGTCCA.nGACTCCTACGGGAGGCAGCAGCTAAGAATCTTCCGCAATGGGCGAAAGCCTGACGGAGCGACACTGCGTG.nAATGAAGAAGGTCGAAAGATTGTAAAATTCTTTTATAAATGAGGAATAAGCTTTGTAGGAAATGACGAAG.nTGATGACGTTAATTTATGAATAAGCCCCGGCTAATTACGTGCCAGCAGCCGCGGTAATACG.n...
+```
+### create vector 'V', which is Sequence3 without gaps
+```{r}
+#remove header (replace everything but ACTG with nothing) 
+#replacement must include the 'A' and 'G' found in the header in 'GL18' and 'RNA'
+V <- gsub("GL18|RNA|[^A|C|T|G]", "", Seq3x, ignore.case = FALSE)
+```
+###create table showing number of A C G T's in Seq3
+```{r}
+Seq3table <- table(strsplit(V, ""))
+print(Seq3table)
+```
+### create vector 'V1', which is the Sequence with gaps
+```{r}
+V1 <- gsub("GL18|RNA|[^\n|A|C|T|G]", "", Seq3x, ignore.case = FALSE)
+```
+###print sequence 3 with gaps
+```{r}
+print(V1)
+```
+###print sequence 3 without gaps
+```{r}
+print(V)
+```
+
+
+Sequence 1-3
+---------------------
+
+Sequence ID | %GC Content 
+--------|----------
+HQ433692.1 |   44.28
+HQ433694.1 |   44.07
+HQ433691.1 |   44.07 
+
+
+#Scatterplot of %GC content of 1000 individuals within 3 different species
+```{r}
+GC <- read.csv("GC_content.csv")
+#calculate GC content for the 1000 individuals
+GC$GCcontent <-GC$G + GC$C
+
+qplot(x=G, y=GCcontent, data = GC, color=Species, alpha=10, shape=Species, xlab = "%G content", ylab = "%GC content", main = "%GC vs %G content in individuals across 3 species") + guides(alpha=FALSE) + theme_bw() + scale_x_continuous(limits = c(10, 40)) + scale_y_continuous(limits = c(20, 80))
+
+```
+
+
+
+
+#Links and Info!
+
+[Learn more about Lyme Disease causing bacteria here!](https://en.wikipedia.org/wiki/Borrelia_burgdorferi)
+
+![Borrelia burgdorferi](https://www.bayarealyme.org/wp-content/uploads/2014/08/borrelia-burgdorferi.jpg)
